@@ -11,6 +11,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -37,8 +38,9 @@ public class pdfGenerator {
         PdfWriter.getInstance(document, new FileOutputStream(name + ".pdf"));
         document.open();
         Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, BaseColor.BLACK);
-        Chunk chunk = new Chunk(body, font);
-        document.add(chunk);
+        Paragraph p = new Paragraph();
+        p.add(body);
+        document.add(p);
         document.close();
         //return document;
     }

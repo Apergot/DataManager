@@ -1,6 +1,7 @@
 package mailer;
 
 import com.itextpdf.text.Document;
+import dbws.Reservation;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -14,6 +15,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import pdfGenerator.pdfGenerator;
+
 
 /**
  *
@@ -44,6 +47,23 @@ public class MailBox {
     );
 
     public static void sendMail(String email) throws Exception {
+        
+        int id = getReservationId(email);
+        Reservation reservation = getReservation(id);        
+        
+        String pdfbody = "Thank you for your reservation, as soon as you have gotten this message, we have\n "
+                + "have received your client info and we are preparing your reservation for you to come\n"
+                + "over at the time you specified. You can show this pdf at our videoclub with the following\n"
+                + "data:\n\n"
+                +"Client name: "+reservation.getName()+
+                "\nClient phone:" +reservation.getPhone()+
+                "\nPick up date:" +reservation.getDate()+
+                "\nPidck up time:" +reservation.getTime()+
+                "\nnMovie id: " +reservation.getMovieId()+
+                "\n\n Remember we are open 24 hrs, even if we are close, we have an automatic dispenser.";
+        
+        pdfGenerator prueba = new pdfGenerator(pdfbody, "prueba");
+        
         String TO = email;
         Properties props = System.getProperties();
         props.put("mail.transport.protocol", "smtp");
@@ -66,7 +86,7 @@ public class MailBox {
         multipart.addBodyPart(messageBodyPart);
 
         messageBodyPart = new MimeBodyPart();
-        String filename = "D:/Netbeans_projects/PDFGenerator/prueba.pdf";
+        String filename = "D:/Netbeans_projects/PDFGenerator/"+prueba.getName();
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(filename);
@@ -95,4 +115,19 @@ public class MailBox {
             transport.close();
         }
     }
+
+    private static Reservation getReservation(int id) {
+        dbws.AddDB_Service service = new dbws.AddDB_Service();
+        dbws.AddDB port = service.getAddDBPort();
+        return port.getReservation(id);
+    }
+
+    private static int getReservationId(java.lang.String email) {
+        dbws.AddDB_Service service = new dbws.AddDB_Service();
+        dbws.AddDB port = service.getAddDBPort();
+        return port.getReservationId(email);
+    }
+
+
+
 }

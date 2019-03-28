@@ -41,14 +41,11 @@ public class GenericResource {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * PUT method for updating or creating an instance of GenericResource
-     * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
-     */
     @PUT
     @Consumes("text/plain")
     public void putMail(String email) throws Exception {
         MailBox.sendMail(email);
     }
+    
+    
 }
