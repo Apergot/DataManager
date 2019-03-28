@@ -49,9 +49,9 @@ public class MailBox {
     public static void sendMail(String email) throws Exception {
         
         int id = getReservationId(email);
-        Reservation reservation = getReservation(id);        
+        Reservation reservation = (Reservation)getReservation(id);
         
-        String pdfbody = "Thank you for your reservation, as soon as you have gotten this message, we have\n "
+        String pdfbody = "Thank you for your reservation, as soon as you have received this message, we have\n "
                 + "have received your client info and we are preparing your reservation for you to come\n"
                 + "over at the time you specified. You can show this pdf at our videoclub with the following\n"
                 + "data:\n\n"
@@ -59,10 +59,10 @@ public class MailBox {
                 "\nClient phone:" +reservation.getPhone()+
                 "\nPick up date:" +reservation.getDate()+
                 "\nPidck up time:" +reservation.getTime()+
-                "\nnMovie id: " +reservation.getMovieId()+
+                "\nMovie id: " +reservation.getMovieId()+
                 "\n\n Remember we are open 24 hrs, even if we are close, we have an automatic dispenser.";
         
-        pdfGenerator prueba = new pdfGenerator(pdfbody, "prueba");
+        pdfGenerator prueba = new pdfGenerator(pdfbody, "reservation2");
         
         String TO = email;
         Properties props = System.getProperties();
@@ -127,7 +127,4 @@ public class MailBox {
         dbws.AddDB port = service.getAddDBPort();
         return port.getReservationId(email);
     }
-
-
-
 }

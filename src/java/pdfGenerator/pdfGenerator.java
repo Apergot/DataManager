@@ -6,7 +6,6 @@
 package pdfGenerator;
 
 import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
@@ -34,14 +33,16 @@ public class pdfGenerator {
     }
     
     public void InitDocument(String body, String name, Document document) throws DocumentException, FileNotFoundException{
+        System.out.println("empieza pdfgenerator");
         document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream(name + ".pdf"));
+        PdfWriter.getInstance(document, new FileOutputStream("D:/Netbeans_projects/PDFGenerator/"+name + ".pdf"));
         document.open();
         Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, BaseColor.BLACK);
         Paragraph p = new Paragraph();
         p.add(body);
         document.add(p);
         document.close();
+        System.out.println("termina pdfgenerator");
         //return document;
     }
 

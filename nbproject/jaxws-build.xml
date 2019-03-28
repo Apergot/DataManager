@@ -42,5 +42,21 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/dbws"/>
         <delete dir="${build.generated.dir}/jax-wsCache/AddDB"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-AddDB"/>
+    <target name="wsimport-client-AddDB_1" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/AddDB_1"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/AddDB_1" destdir="${build.generated.dir}/jax-wsCache/AddDB_1" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/AddDB_1/wsdl/localhost_8080/DatabaseSoapWS/AddDB.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/DatabaseSoapWS/AddDB?WSDL" xnocompile="true" xendorsed="true" package="dbws">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/AddDB_1/wsdl/localhost_8080/DatabaseSoapWS/AddDB.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/AddDB_1"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/AddDB_1">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-AddDB_1" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/dbws"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/AddDB_1"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-AddDB, wsimport-client-AddDB_1"/>
 </project>
